@@ -1,0 +1,13 @@
+.main-container {
+    width: auto;
+    height: 550px;
+    margin: 10px;
+    border: 1px solid #555;
+    /* The background property is added to clearly distinguish the borders between drawer and main
+       content */
+    background: #eee;
+  }
+  
+  .sidebar-option {
+    width: 190px;
+  }

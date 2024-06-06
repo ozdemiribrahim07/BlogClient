@@ -1,0 +1,79 @@
+
+<div class="register-container">    
+<form [formGroup]="frm" (ngSubmit)="onSubmit(frm.value)">
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="adSoyad" class="form-label">Ad Soyad</label>
+            <input formControlName="adSoyad" class="form-control" id="adSoyad"
+             [ngClass]="{'is-invalid': submitted && component.adSoyad.errors}">
+
+             <small class="form-text text-muted"
+             *ngIf="submitted && component.adSoyad.errors?.required">Ad Soyad boş bırakılamaz..</small>
+
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+        <label for="email" class="form-label">E-Posta Adresi</label>
+        <input type="email" formControlName="email" class="form-control" id="email"
+        [ngClass]="{'is-invalid': submitted && component.email.errors}">
+        
+        <small class="form-text text-muted"
+             *ngIf="submitted && component.email.errors?.required">Email boş bırakılamaz..
+        </small>
+        <small class="form-text text-muted"
+             *ngIf="submitted && component.email.errors?.email">Email formatında olmalı..
+        </small>
+
+    </div>
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="kullaniciAdi" class="form-label">Kullanıcı Adı</label>
+            <input formControlName="kullaniciAdi" class="form-control" id="kullaniciAdi"
+            [ngClass]="{'is-invalid': submitted && component.kullaniciAdi.errors}">
+
+        <small class="form-text text-muted"
+             *ngIf="submitted && component.kullaniciAdi.errors?.required">Kullanıcı adı girilmeli..
+        </small>
+    </div>
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+        <label for="parola" class="form-label">Parola</label>
+        <input type="password" formControlName="parola" class="form-control" id="parola"
+        [ngClass]="{'is-invalid':submitted && component.parola.errors}">
+
+        <small class="form-text text-muted"
+        *ngIf="submitted && component.parola.errors?.required">Şifre girilmeli..
+         </small>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="parola" class="form-label">Parola Tekrar</label>
+            <input type="password" formControlName="parolaTekrar" class="form-control" id="parola" 
+            [ngClass]="{'is-invalid':submitted && component.parolaTekrar.errors || frm.errors?.notSame }">
+
+            <small class="form-text text-muted"
+                *ngIf="submitted && component.parola.errors?.required">Şifre girilmeli..
+            </small>
+
+            <small class="form-text text-muted"
+            *ngIf="submitted && frm.errors?.notSame ">Şifre eşleşmeli..
+            </small>
+        </div>
+     </div>
+
+    <!-- <div class="mb-3 form-check">
+      <input type="checkbox" class="form-check-input" id="exampleCheck1">
+      <label class="form-check-label" for="exampleCheck1">Beni Hatırla</label>
+    </div> -->
+    <button type="submit" class="btn btn-primary">Kayıt Ol</button>
+  </form>
+</div>

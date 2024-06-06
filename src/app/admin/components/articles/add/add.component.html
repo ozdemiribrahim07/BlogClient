@@ -1,0 +1,30 @@
+<div class="example-container">
+
+    <form class="example-form">
+        <mat-form-field class="example-full-title">
+          <mat-label>Makale Başlık</mat-label>
+          <input matInput placeholder="Başlık.." #txtTitle>
+        </mat-form-field>
+    
+        <mat-form-field>
+            <mat-label>Kategori</mat-label>
+            <mat-select>
+              <mat-option value="one">First option</mat-option>
+              <mat-option value="two">Second option</mat-option>
+            </mat-select>
+          </mat-form-field>
+      
+         
+      </form>
+      <angular-editor [placeholder]="'Enter text here...'" [config]="config" [(ngModel)]="editorContent" ></angular-editor >
+      <br>
+
+      
+      <br>
+      <button mat-raised-button color="primary" (click)="create(txtTitle)">Makale Ekle</button>
+
+   
+</div>
+
+
+  
