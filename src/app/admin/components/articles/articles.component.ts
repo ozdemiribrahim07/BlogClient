@@ -11,6 +11,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { Article_Add } from '../../../contracts/article_add';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { AuthService } from '../../../services/common/auth.service';
 
 @Component({
   selector: 'app-articles',
@@ -28,7 +29,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 })
 export class ArticlesComponent implements OnInit {
 
-  constructor(private httpClient : HttpClientService) { }
+  constructor(private httpClient : HttpClientService){
+
+  }
+  
 
 
   ngOnInit(): void {

@@ -15,16 +15,20 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="register">Kayıt Ol</a>
+            <a class="nav-link active" aria-current="page" routerLink="register" *ngIf="!authService.isAuthenticated">Kayıt Ol</a>
           </li>
 
           
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" routerLink="login">Giriş Yap</a>
+            <a class="nav-link active" aria-current="page" routerLink="login" *ngIf="!authService.isAuthenticated">Giriş Yap</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" style="cursor: pointer;" (click)="logout()" *ngIf="authService.isAuthenticated">Çıkış Yap</a>
           </li>
 
           <li class="nav-item" style="margin-left: 30px;">
-            <button class="btn btn-outline-success" type="submit" routerLink="admin">Admin</button>
+            <a class="btn btn-outline-success" type="submit" routerLink="admin" *ngIf="authService.isAuthenticated">Admin</a>
           </li>
         
         </ul>

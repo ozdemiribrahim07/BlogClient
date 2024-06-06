@@ -8,6 +8,12 @@ import { HomeComponent } from './ui/components/home/home.component';
 import { HomeArticlesComponent } from './ui/components/home-articles/home-articles.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FileUploadDialogComponent } from './dialogs/file-upload-dialog/file-upload-dialog.component';
+import { JwtModule } from '@auth0/angular-jwt';
+import { AuthService } from './services/common/auth.service';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { AlertifyService, MessagePosition, MessageType } from './services/common/alertify.service';
+import { routes } from './app.routes';
 
 declare var $ : any
 
@@ -23,11 +29,27 @@ declare var $ : any
     HomeComponent,
     HomeArticlesComponent,
     RouterModule,
+    CommonModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
+
+  constructor(public authService : AuthService, private alertify :AlertifyService){
+    authService.identityCheck();
+  }
+
+  logout(){
+    localStorage.removeItem("accessToken");
+    this.authService.identityCheck();
+    this.alertify.message("Cıkış Yapıldı", {
+      messageType : MessageType.Warning,
+      messagePosition : MessagePosition.TopRight
+    })
+  }
+
+
   ngOnInit(): void {
   
   }

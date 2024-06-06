@@ -24,32 +24,5 @@ export class UserService {
   }
 
 
-  async login( emailOrUsername : string, password : string){
-    const observable = this.httpClient.post<any | Token_Response>({
-      controller : "users",
-      action : "login"
-    ,}, { 
-      emailOrUsername : emailOrUsername,
-      password : password
-    })
-
-   const tokenResponse : Token_Response =  await firstValueFrom(observable) as Token_Response;
-
-    if(tokenResponse){
-      localStorage.setItem("accessToken", tokenResponse.token.accessToken);
-
-      this.alertify.message("Kullanıcı girişi başarılı", {
-        messageType: MessageType.Success,
-        messagePosition: MessagePosition.TopRight
-      })
-    }else{
-      this.alertify.message("Kullanıcı bilgileri hatalı", {
-        messageType: MessageType.Error,
-        messagePosition: MessagePosition.TopRight
-      })
-    }
-
-
-  }
-
+  
 }
