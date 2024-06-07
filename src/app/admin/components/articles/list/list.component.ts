@@ -36,21 +36,44 @@ export class ListComponent implements OnInit {
   dataSource : MatTableDataSource<Article_List> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-
-  async getArticles(){
-    const allArticles : {total : number, articles : Article_List[]} = await this.articleService.listArticle(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,  
-      () => this.alertifyService.message("Makaleler listelendi", {
-      messageType: MessageType.Success,
-      messagePosition: MessagePosition.TopRight
-    }), errorMessage => this.alertifyService.message(errorMessage, {
-      messageType: MessageType.Error,
-      messagePosition: MessagePosition.TopRight
-    }))
-
-    this.dataSource = new MatTableDataSource<Article_List>(allArticles.articles);
-    this.paginator.length = allArticles.total;
-   
+  async getArticles() {
+    try {
+      this.articleService.listArticle(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5)
+        .subscribe({
+          next: (allArticles: { total: number; articles: Article_List[] }) => {
+            this.dataSource = new MatTableDataSource<Article_List>(allArticles.articles);
+            this.paginator.length = allArticles.total;
+            this.alertifyService.message("Makaleler listelendi", {
+              messageType: MessageType.Success,
+              messagePosition: MessagePosition.TopRight
+            });
+          },
+          error: (errorMessage: string) => {
+            this.alertifyService.message(errorMessage, {
+              messageType: MessageType.Error,
+              messagePosition: MessagePosition.TopRight
+            });
+          }
+        });
+    } catch (error) {
+      console.error('Beklenmeyen bir hata oluştu:', error);
+    }
   }
+
+  // async getArticles(){
+  //   const allArticles : {total : number, articles : Article_List[]} = await this.articleService.listArticle(this.paginator ? this.paginator.pageIndex : 0, this.paginator ? this.paginator.pageSize : 5,  
+  //     () => this.alertifyService.message("Makaleler listelendi", {
+  //     messageType: MessageType.Success,
+  //     messagePosition: MessagePosition.TopRight
+  //   }), errorMessage => this.alertifyService.message(errorMessage, {
+  //     messageType: MessageType.Error,
+  //     messagePosition: MessagePosition.TopRight
+  //   }))
+
+  //   this.dataSource = new MatTableDataSource<Article_List>(allArticles.articles);
+  //   this.paginator.length = allArticles.total;
+   
+  // }
 
 
   addArticleImages(id : string){

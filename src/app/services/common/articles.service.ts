@@ -4,7 +4,7 @@ import { Article_Add } from '../../contracts/article_add';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Article_List } from '../../contracts/article_list';
 import { error } from 'console';
-import { firstValueFrom } from 'rxjs';
+import { Observable, catchError, firstValueFrom, map, of } from 'rxjs';
 import { AlertifyService } from './alertify.service';
 import { Article_List_Image } from '../../contracts/article_list_image';
 
@@ -35,20 +35,43 @@ export class ArticlesService {
     });
   }
 
+  listArticle(
+    page: number = 0,
+    size: number = 5,
+    successCallBack?: () => void,
+    errorCallBack?: (errorMessage: string) => void
+  ): Observable<{ total: number; articles: Article_List[] }> {
 
-  async listArticle(page: number = 0,size: number = 5,successCallBack? : () => void, errorCallBack?: (errorMessage: string) => void) : Promise<{total : number, articles : Article_List[]}>{
-
-    const promiseData : Promise<{total : number, articles : Article_List[]}> =  this.httpClient.get<{total : number, articles : Article_List[]}>({
-      controller : "articles",
-      queryString : `page=${page}&size=${size}`
-    }).toPromise();
-
-    promiseData.then(x => successCallBack())
-    .catch((errorResponse : HttpErrorResponse) => errorCallBack(errorResponse.message))
-
-    return await promiseData;
-
+    return this.httpClient
+      .get<{ total: number; articles: Article_List[] }>({
+        controller: 'articles',
+        queryString: `page=${page}&size=${size}`
+      })
+      .pipe(
+        map(response => {
+          if (successCallBack) successCallBack();
+          return response;
+        }),
+        catchError((errorResponse: HttpErrorResponse) => {
+          if (errorCallBack) errorCallBack(errorResponse.message);
+          return of({ total: 0, articles: [] });
+        })
+      );
   }
+
+  // async listArticle(page: number = 0,size: number = 5,successCallBack? : () => void, errorCallBack?: (errorMessage: string) => void) : Promise<{total : number, articles : Article_List[]}>{
+
+  //   const promiseData : Promise<{total : number, articles : Article_List[]}> =  this.httpClient.get<{total : number, articles : Article_List[]}>({
+  //     controller : "articles",
+  //     queryString : `page=${page}&size=${size}`
+  //   }).toPromise();
+
+  //   promiseData.then(x => successCallBack())
+  //   .catch((errorResponse : HttpErrorResponse) => errorCallBack(errorResponse.message))
+
+  //   return await promiseData;
+
+  // }
 
 
 
